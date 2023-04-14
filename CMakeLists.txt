@@ -24,6 +24,7 @@ qt5_add_resources(RESOURCE_FILES resources.qrc)
 add_executable(filters
     mainwindow.cpp mainwindow.h
     Filter.cpp Filter.h
+    MyPixmapItem.h MyPixmapItem.cpp
     Camera.cpp Camera.h
     Photos.cpp Photos.h
     frameCapture.h frameCapture.cpp

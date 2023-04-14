@@ -17,6 +17,14 @@
 #include <QRectF>
 #include <QDebug>
 #include <QPixmap>
+#include <QPointF>
+#include <QColor>
+#include <QLine>
+#include <QGraphicsSceneMouseEvent>
+#include <QResizeEvent>
+#include <QEvent>
+#include <QObject>
+//#include "MyPixmapItem.h"
 
 class FilterWidget: public QWidget
 {
@@ -46,6 +54,16 @@ public:
     QToolButton* paint = new QToolButton;
     QToolButton* save = new QToolButton;
 
+
+
+    QPushButton* b1=new QPushButton("clear all");
+    QPushButton* b2=new QPushButton("pen");
+    QPushButton* b3=new QPushButton("erasor");
+    QPushButton* b4=new QPushButton("color change");
+    QPushButton* b5=new QPushButton("size bigger");
+    QPushButton* b6=new QPushButton("size smaller");
+
+
     //go back button
     QToolButton* fromFilterback_button = new QToolButton;
 
@@ -55,16 +73,43 @@ public:
 
     //image
     QLabel* image = new QLabel;
-    QPixmap picture;
+    QPixmap originalPic;
+    QPixmap pixmap;
+    //MyPixmapItem* pixmapItem;
     void setImage(QString);
     void setCamImage(const QPixmap* pixmap);
+
+
+//paint stuff
+    QColor currentColor = Qt::black; // Initial pen color is black
+    int penSize = 2;
+    QPointF lastPoint;
+    bool isDrawing;
+   
+     void paintEvent(QPaintEvent *event);
+
+    void mousePressEvent(QMouseEvent *event);
+
+    void mouseMoveEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    // void drawLineTo(const QPointF &endPoint);
+    //void focusInEvent(QFocusEvent *event);
+    //void focusOutEvent(QFocusEvent *event);
+
+    //bool eventFilter(QObject *obj, QEvent *event);
+
 public slots:
+    void changeColor();
+    void clearDrawing();
+    void setPenSizeBig();
+    void setPenSizeSmall();
+//
+
     void slotZoomin();
     void slotZoomout();
     void slotRotateleft();
     void slotRotateRight();
     void saveImages();
-    //void cropMyImage();
 };
 
 

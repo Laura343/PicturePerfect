@@ -101,7 +101,7 @@ MainWindow::MainWindow()
         delete filterWidget->view;
         delete filterWidget->scene;
         Image im = cameraWidget->cam.captureOriginalImage();
-        filterWidget->picture=QPixmap::fromImage(ImageToQImage(im)).scaled(QSize(400, 400), Qt::KeepAspectRatio);;
+        filterWidget->originalPic=QPixmap::fromImage(ImageToQImage(im)).scaled(QSize(400, 400), Qt::KeepAspectRatio);;
         filterWidget->setCamImage(cameraWidget->m_label->pixmap());
         stackedWidget->setCurrentIndex(2);}); 
 
