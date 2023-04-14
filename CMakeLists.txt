@@ -25,6 +25,7 @@ add_executable(filters
     mainwindow.cpp mainwindow.h
     Filter.cpp Filter.h
     MyPixmapItem.h MyPixmapItem.cpp
+    CustomGraphicsScene.h CustomGraphicsScene.cpp
     Camera.cpp Camera.h
     Photos.cpp Photos.h
     frameCapture.h frameCapture.cpp

@@ -24,6 +24,7 @@
 #include <QResizeEvent>
 #include <QEvent>
 #include <QObject>
+#include "CustomGraphicsScene.h"
 //#include "MyPixmapItem.h"
 
 class FilterWidget: public QWidget
@@ -68,8 +69,11 @@ public:
     QToolButton* fromFilterback_button = new QToolButton;
 
     //zoom in/out, rotates
-    QGraphicsScene *scene = new QGraphicsScene;
+    //QGraphicsScene *scene = new QGraphicsScene;
     QGraphicsView *view = new QGraphicsView(scene);
+
+    CustomGraphicsScene *scene=new CustomGraphicsScene;
+
 
     //image
     QLabel* image = new QLabel;
@@ -86,12 +90,13 @@ public:
     QPointF lastPoint;
     bool isDrawing;
    
-     void paintEvent(QPaintEvent *event);
+    //  void paintEvent(QPaintEvent *event);
 
-    void mousePressEvent(QMouseEvent *event);
+    // void mousePressEvent(QMouseEvent *event);
 
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
+    // void mouseMoveEvent(QMouseEvent *event);
+
+    // void mouseReleaseEvent(QMouseEvent *event);
     // void drawLineTo(const QPointF &endPoint);
     //void focusInEvent(QFocusEvent *event);
     //void focusOutEvent(QFocusEvent *event);

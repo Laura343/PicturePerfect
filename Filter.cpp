@@ -9,8 +9,6 @@
 FilterWidget::FilterWidget(QWidget *parent)
     : QWidget(parent)
 {
-    setFocusPolicy(Qt::StrongFocus);
-    view->installEventFilter(this);
     setMouseTracking(true);
     fromFilterback_button->setIcon(QIcon(":Icons/home.png"));
     fromFilterback_button->setIconSize(QSize(30, 30));
@@ -150,7 +148,7 @@ FilterWidget::FilterWidget(QWidget *parent)
     //pixmapItem = new MyPixmapItem(pixmap);
     //scene->addItem(pixmapItem);
    
-
+    connect(b3,SIGNAL(clicked()),this,SLOT(clearDrawing()));
     connect(b4,SIGNAL(clicked()),this,SLOT(changeColor()));
     connect(b5,SIGNAL(clicked()),this,SLOT(setPenSizeBig()));
     connect(b6,SIGNAL(clicked()),this,SLOT(setPenSizeSmall()));
@@ -204,42 +202,42 @@ FilterWidget::FilterWidget(QWidget *parent)
 
 
 
-void FilterWidget::paintEvent(QPaintEvent *event)
-{
-    Q_UNUSED(event);
-    QPainter painter(this);
-    painter.drawPixmap(0, 0, pixmap);
-}
+// void FilterWidget::paintEvent(QPaintEvent *event)
+// {
+//     Q_UNUSED(event);
+//     QPainter painter(this);
+//     painter.drawPixmap(0, 0, pixmap);
+// }
 
-void FilterWidget::mousePressEvent(QMouseEvent *event)
-{
-    if (event->button() == Qt::LeftButton)
-    {
-        isDrawing = true;
-        lastPoint = event->pos();
-    }
-}
+// void FilterWidget::mousePressEvent(QMouseEvent *event)
+// {
+//     if (event->button() == Qt::LeftButton)
+//     {
+//         isDrawing = true;
+//         lastPoint = event->pos();
+//     }
+// }
 
-void FilterWidget::mouseMoveEvent(QMouseEvent *event)
-{
-    if (isDrawing)
-    {
-        // Draw line from last point to current point
-        QPainter painter(&pixmap);
-        painter.setPen(QPen(currentColor, penSize));
-        painter.drawLine(lastPoint, event->pos());
-        lastPoint = event->pos();
-        update();
-    }
-}
+// void FilterWidget::mouseMoveEvent(QMouseEvent *event)
+// {
+//     if (isDrawing)
+//     {
+//         // Draw line from last point to current point
+//         QPainter painter(&pixmap);
+//         painter.setPen(QPen(currentColor, penSize));
+//         painter.drawLine(lastPoint, event->pos());
+//         lastPoint = event->pos();
+//         scene->addPixmap(pixmap);
+//     }
+// }
 
-void FilterWidget::mouseReleaseEvent(QMouseEvent *event)
-{
-    if (event->button() == Qt::LeftButton)
-    {
-        isDrawing = false;
-    }
-}
+// void FilterWidget::mouseReleaseEvent(QMouseEvent *event)
+// {
+//     if (event->button() == Qt::LeftButton)
+//     {
+//         isDrawing = false;
+//     }
+// }
 
 
     // void FilterWidget::mousePressEvent(QGraphicsSceneMouseEvent *event) {
@@ -379,7 +377,7 @@ void FilterWidget::setImage(QString path)
     pixmap= QPixmap(path);
     originalPic = pixmap.scaled(QSize(400, 400), Qt::KeepAspectRatio);
     pixmap=originalPic;
-    scene = new QGraphicsScene;
+    scene = new CustomGraphicsScene;
     scene->addPixmap(pixmap);
     view = new QGraphicsView(scene);
     //view->setFixedSize(600,600);
@@ -389,7 +387,7 @@ void FilterWidget::setImage(QString path)
 
 void FilterWidget::setCamImage(const QPixmap* p)
 {
-    scene = new QGraphicsScene;
+    scene = new CustomGraphicsScene;
     pixmap=(*p).scaled(QSize(400, 400), Qt::KeepAspectRatio);
     scene->addPixmap(pixmap);
     view = new QGraphicsView(scene);
