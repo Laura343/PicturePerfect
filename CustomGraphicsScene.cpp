@@ -6,12 +6,11 @@ CustomGraphicsScene::CustomGraphicsScene(QObject* parent)
     : QGraphicsScene(parent)
 {
 }
-void CustomGraphicsScene::setPixmap(QPixmap& pixmap,QColor& col,int& size,bool& is_Active)
+void CustomGraphicsScene::setPixmap(QPixmap& pixmap,QColor& col,int& size)
 {
     m_pixmap = &pixmap;
     m_currentColor = &col;
     m_penSize = &size;
-    is_active = &is_Active;
 }
 void CustomGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {

@@ -13,7 +13,8 @@ class CustomGraphicsScene : public QGraphicsScene
 public:
     explicit CustomGraphicsScene(QObject* parent = nullptr);
     // Set the pixmap that you want to draw on
-    void setPixmap(QPixmap& pixmap,QColor& col,int& size,bool& isActive);
+    void setPixmap(QPixmap& pixmap,QColor& col,int& size);
+    bool is_active=false;
 protected:
     // Reimplement mousePressEvent to handle mouse press events
     void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
@@ -21,11 +22,11 @@ protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
     // Reimplement mouseReleaseEvent to handle mouse release events
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
+
 private:
     QPixmap* m_pixmap; // The pixmap to draw on
     QPointF m_lastPos; // The last position of the mouse
     QColor* m_currentColor; // Initial pen color is black
-    bool* is_active;
     int* m_penSize;
 };
 #endif

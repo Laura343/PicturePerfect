@@ -27,7 +27,7 @@ public:
 //private:
 
     bool is_button_active = false;
-    bool is_mouse_active = false;
+    bool is_brush_active=false;
     //layouts
     QVBoxLayout *vlay1;
     QHBoxLayout *main_hlay;
@@ -72,6 +72,7 @@ public:
     QPixmap rotateRightPixmap90Degrees(const QPixmap& original);
     QColor currentColor = Qt::black; // Initial pen color is black
     int penSize = 2;
+    bool firstTime=true;
 public slots:
     void changeColor();
     void clearDrawing();

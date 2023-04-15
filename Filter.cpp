@@ -202,7 +202,11 @@ FilterWidget::FilterWidget(QWidget *parent)
         });
     connect(paint,&QToolButton::clicked,this,[this](){
         if(is_button_active == false){
-            prev=pixmap;
+            if(firstTime)
+            {
+                 prev=pixmap;
+                 firstTime=false;
+            }       
             erase = new QToolButton;
             color = new QToolButton;
             size_plus = new QToolButton;
@@ -245,7 +249,16 @@ FilterWidget::FilterWidget(QWidget *parent)
             vlay2->addWidget(size_minus,12);
             is_button_active = true;
             connect(color,&QToolButton::clicked,this,[this](){
-                is_mouse_active = true;
+                if(is_brush_active)
+                {
+                    scene->is_active = false;
+                    is_brush_active=false;
+                }
+                else
+                {
+                    scene->is_active = true;
+                    is_brush_active=true;
+                }
             });
             connect(wheel,SIGNAL(clicked()),this,SLOT(changeColor()));
             connect(size_plus,SIGNAL(clicked()),this,SLOT(setPenSizeBig()));
@@ -259,7 +272,8 @@ FilterWidget::FilterWidget(QWidget *parent)
             delete size_plus;
             delete size_minus;
             is_button_active = false;
-            is_mouse_active = false;
+            scene->is_active = false;
+            is_brush_active=false;
         }
     });
 
@@ -319,7 +333,7 @@ void FilterWidget::setImage(QString path)
     scene->addPixmap(pixmap);
     view = new QGraphicsView(scene);
     vlay1->addWidget(view);
-    scene->setPixmap(pixmap,currentColor,penSize,is_mouse_active);
+    scene->setPixmap(pixmap,currentColor,penSize);
 }
 
 void FilterWidget::setCamImage(const QPixmap* p)
@@ -329,7 +343,7 @@ void FilterWidget::setCamImage(const QPixmap* p)
     scene->addPixmap(pixmap);
     view = new QGraphicsView(scene);
     vlay1->addWidget(view);
-    scene->setPixmap(pixmap,currentColor,penSize,is_mouse_active);
+    scene->setPixmap(pixmap,currentColor,penSize);
 }
 
 void FilterWidget::changeColor() {
