@@ -5,7 +5,6 @@
         <file>Icons/black_and_white.jpg</file>
         <file>Icons/camera_t.png</file>
         <file>Icons/close.jpg</file>
-        <file>Icons/crop.jpg</file>
         <file>Icons/disk.png</file>
         <file>Icons/home.png</file>
         <file>Icons/maximize.jpg</file>
@@ -23,6 +22,11 @@
         <file>Icons/red-blue.jpg</file>
         <file>Icons/sand.jpg</file>
         <file>Icons/original.jpg</file>
+        <file>Icons/plus.png</file>
+        <file>Icons/minus.png</file>
+        <file>Icons/rubber.png</file>
+        <file>Icons/color-palette.png</file>
+        <file>Icons/wheel.png</file>
     </qresource>
     <qresource prefix="/">
         <file>Images/cat.jpg</file>

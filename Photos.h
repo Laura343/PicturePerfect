@@ -16,10 +16,8 @@ class PhotosWidget : public QWidget
 
 public:
     PhotosWidget(QWidget *parent = nullptr);
-
-//private:
+public:
     QToolButton *fromPhotosBack_button;
-
     QVBoxLayout* lay;
     QGridLayout *grid_lay;
     QVector<QToolButton*> button_array;

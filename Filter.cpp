@@ -1,73 +1,142 @@
 #include "Filter.h"
 #include <QPixmap>
 #include <QFileDialog>
+#include <QDateTime>
 #include "imageToQImage.h"
 #include "functionFilter.h"
-#include <QCursor>
-#include <QBitMap>
-#include <QColorDialog>
 FilterWidget::FilterWidget(QWidget *parent)
     : QWidget(parent)
 {
-    setMouseTracking(true);
+    //layouts
+    vlay1 = new QVBoxLayout;
+    main_hlay=new QHBoxLayout;
+    vlay2=new QVBoxLayout;
+    hlay=new QHBoxLayout;//tools
+    main_vlay = new QVBoxLayout;
+
+    //filters
+    filter1 = new QToolButton;
+    filter2 = new QToolButton;
+    filter3 = new QToolButton;
+    filter4 = new QToolButton;
+
+    //tools
+    zoomIn = new QToolButton;
+    zoomOut = new QToolButton;
+    rotate_left = new QToolButton;
+    rotate_right = new QToolButton;
+    paint = new QToolButton;
+    erase = new QToolButton;
+    color = new QToolButton;
+    size_plus = new QToolButton;
+    size_minus = new QToolButton;
+    wheel = new QToolButton;
+    save = new QToolButton;
+
+    //go back button
+    fromFilterback_button = new QToolButton;
+
+    //zoom in/out, rotate Left/Right
+    scene = new CustomGraphicsScene;
+    view = new QGraphicsView(scene);
+
+    //image
+    image = new QLabel;
+
     fromFilterback_button->setIcon(QIcon(":Icons/home.png"));
     fromFilterback_button->setIconSize(QSize(30, 30));
     fromFilterback_button->setAutoRaise(true);
+    fromFilterback_button->setToolTip("Home Page");
     fromFilterback_button->setStyleSheet("QToolButton { border: none; }");
 
     zoomIn->setIcon(QIcon(":Icons/zoomIn.png"));
     zoomIn->setIconSize(QSize(30, 30));
     zoomIn->setAutoRaise(true);
+    zoomIn->setToolTip("Zoom In");
     zoomIn->setStyleSheet("QToolButton { border: none; }");
 
     zoomOut->setIcon(QIcon(":Icons/zoomOut.jpg"));
     zoomOut->setIconSize(QSize(30, 30));
     zoomOut->setAutoRaise(true);
+    zoomOut->setToolTip("Zoom Out");
     zoomOut->setStyleSheet("QToolButton { border: none; }");
 
     rotate_left->setIcon(QIcon(":Icons/rotateLeft.png"));
     rotate_left->setIconSize(QSize(30, 30));
     rotate_left->setAutoRaise(true);
+    rotate_left->setToolTip("Rotate Left");
     rotate_left->setStyleSheet("QToolButton { border: none; }");
 
     rotate_right->setIcon(QIcon(":Icons/rotateRight.png"));
     rotate_right->setIconSize(QSize(30, 30));
     rotate_right->setAutoRaise(true);
+    rotate_right->setToolTip("Rotate Right");
     rotate_right->setStyleSheet("QToolButton { border: none; }");
 
-    crop->setIcon(QIcon(":Icons/crop.jpg"));
-    crop->setIconSize(QSize(30, 30));
-    crop->setAutoRaise(true);
-    crop->setStyleSheet("QToolButton { border: none; }");
-
-    paint->setIcon(QIcon(":Icons/paint.jpg"));
+    paint->setIcon(QIcon(":Icons/color-palette.png"));
     paint->setIconSize(QSize(30, 30));
     paint->setAutoRaise(true);
+    paint->setToolTip("Paint");
     paint->setStyleSheet("QToolButton { border: none; }");
+
+    erase->setIcon(QIcon(":Icons/rubber.png"));
+    erase->setIconSize(QSize(30, 30));
+    erase->setAutoRaise(true);
+    erase->setToolTip("Rubber");
+    erase->setStyleSheet("QToolButton { border: none; }");
+
+    color->setIcon(QIcon(":Icons/paint.jpg"));
+    color->setIconSize(QSize(30, 30));
+    color->setAutoRaise(true);
+    color->setToolTip("Colors");
+    color->setStyleSheet("QToolButton { border: none; }");
+
+    size_plus->setIcon(QIcon(":Icons/plus.png"));
+    size_plus->setIconSize(QSize(30, 30));
+    size_plus->setAutoRaise(true);
+    size_plus->setToolTip("Increase The Size Of Brush");
+    size_plus->setStyleSheet("QToolButton { border: none; }");
+
+    size_minus->setIcon(QIcon(":Icons/minus.png"));
+    size_minus->setIconSize(QSize(30, 30));
+    size_minus->setAutoRaise(true);
+    size_minus->setToolTip("Decrease The Size Of Brush");
+    size_minus->setStyleSheet("QToolButton { border: none; }");
+
+    wheel->setIcon(QIcon(":Icons/wheel.png"));
+    wheel->setIconSize(QSize(30, 30));
+    wheel->setAutoRaise(true);
+    wheel->setToolTip("Choose Colors");
+    wheel->setStyleSheet("QToolButton { border: none; }");
 
     save->setIcon(QIcon(":Icons/disk.png"));
     save->setIconSize(QSize(30, 30));
     save->setAutoRaise(true);
+    save->setToolTip("Save");
     save->setStyleSheet("QToolButton { border: none; }");
 
     filter1->setIcon(QIcon(":Icons/original.jpg"));
     filter1->setIconSize(QSize(80, 80));
     filter1->setAutoRaise(true);
+    filter1->setToolTip("No Filter");
     filter1->setStyleSheet("QToolButton { border: none; }");
 
     filter2->setIcon(QIcon(":Icons/black_and_white.jpg"));
     filter2->setIconSize(QSize(80, 80));
     filter2->setAutoRaise(true);
+    filter2->setToolTip("Black And White");
     filter2->setStyleSheet("QToolButton { border: none; }");
 
     filter3->setIcon(QIcon(":Icons/sand.jpg"));
     filter3->setIconSize(QSize(80, 80));
     filter3->setAutoRaise(true);
+    filter3->setToolTip("Sand");
     filter3->setStyleSheet("QToolButton { border: none; }");
 
     filter4->setIcon(QIcon(":Icons/red-blue.jpg"));
     filter4->setIconSize(QSize(80, 80));
     filter4->setAutoRaise(true);
+    filter4->setToolTip("Red And Blue");
     filter4->setStyleSheet("QToolButton { border: none; }");
 
     hlay->addWidget(filter1);
@@ -78,42 +147,30 @@ FilterWidget::FilterWidget(QWidget *parent)
     vlay1->addWidget(view);
 
     vlay2->addWidget(fromFilterback_button,1);
-    vlay2->addWidget(zoomIn,2);
-    vlay2->addWidget(zoomOut,3);
-    vlay2->addWidget(rotate_left,4);
-    vlay2->addWidget(rotate_right,5);
-    vlay2->addWidget(crop,6);
+    vlay2->addWidget(save,2);
+    vlay2->addWidget(zoomIn,3);
+    vlay2->addWidget(zoomOut,4);
+    vlay2->addWidget(rotate_left,5);
+    vlay2->addWidget(rotate_right,6);
     vlay2->addWidget(paint,7);
-    vlay2->addWidget(save,8);
 
     main_hlay->addLayout(vlay1);
     main_hlay->addLayout(vlay2);
     main_vlay->addLayout(main_hlay);
     main_vlay->addLayout(hlay);
-
-
-    //added hanun paint
-    QHBoxLayout* knopki=new QHBoxLayout;
-    knopki->addWidget(b1);
-    knopki->addWidget(b2);
-    knopki->addWidget(b3);
-    knopki->addWidget(b4);
-    knopki->addWidget(b5);
-    knopki->addWidget(b6);
-    main_vlay->addLayout(knopki);
     setLayout(main_vlay);
-    //
-
 
     connect(zoomIn,&QToolButton::clicked,this,&FilterWidget::slotZoomin);
     connect(zoomOut,&QToolButton::clicked,this,&FilterWidget::slotZoomout);
     connect(rotate_right,&QToolButton::clicked,this,&FilterWidget::slotRotateRight);
-    connect(rotate_left,&QToolButton::clicked,this,&FilterWidget::slotRotateleft);
+    connect(rotate_left,&QToolButton::clicked,this,&FilterWidget::slotRotateLeft);
     connect(save,&QToolButton::clicked,this,&FilterWidget::saveImages);
-    //doesn't work
-    //connect(crop,&QToolButton::clicked,this,&FilterWidget::cropMyImage);
 
-
+    connect(filter1,&QToolButton::clicked,this,[this](){
+        scene->clear();
+        pixmap = originalPic;
+        scene->addPixmap(originalPic);
+        });
     connect(filter1,&QToolButton::clicked,this,[this](){
         scene->clear();
         pixmap=originalPic;
@@ -143,176 +200,75 @@ FilterWidget::FilterWidget(QWidget *parent)
         pixmap=QPixmap::fromImage(qimg);
         scene->addPixmap(pixmap);
         });
+    connect(paint,&QToolButton::clicked,this,[this](){
+        if(is_button_active == false){
+            prev=pixmap;
+            erase = new QToolButton;
+            color = new QToolButton;
+            size_plus = new QToolButton;
+            size_minus = new QToolButton;
+            wheel = new QToolButton;
+            erase->setIcon(QIcon(":Icons/rubber.png"));
+            erase->setIconSize(QSize(30, 30));
+            erase->setAutoRaise(true);
+            erase->setToolTip("Rubber");
+            erase->setStyleSheet("QToolButton { border: none; }");
 
+            color->setIcon(QIcon(":Icons/paint.jpg"));
+            color->setIconSize(QSize(30, 30));
+            color->setAutoRaise(true);
+            color->setToolTip("Brush");
+            color->setStyleSheet("QToolButton { border: none; }");
 
-    //pixmapItem = new MyPixmapItem(pixmap);
-    //scene->addItem(pixmapItem);
-   
-    connect(b3,SIGNAL(clicked()),this,SLOT(clearDrawing()));
-    connect(b4,SIGNAL(clicked()),this,SLOT(changeColor()));
-    connect(b5,SIGNAL(clicked()),this,SLOT(setPenSizeBig()));
-    connect(b6,SIGNAL(clicked()),this,SLOT(setPenSizeSmall()));
-} 
+            size_plus->setIcon(QIcon(":Icons/plus.png"));
+            size_plus->setIconSize(QSize(30, 30));
+            size_plus->setAutoRaise(true);
+            size_plus->setToolTip("Increase the size");
+            size_plus->setStyleSheet("QToolButton { border: none; }");
 
-// bool FilterWidget::eventFilter(QObject *obj, QEvent *event)
-// {
-//     if (obj == view /*&& event->type() == QEvent::GraphicsSceneMouseEvent*/)
-//     {
-//         QGraphicsSceneMouseEvent *mouseEvent = static_cast<QGraphicsSceneMouseEvent *>(event);
+            size_minus->setIcon(QIcon(":Icons/minus.png"));
+            size_minus->setIconSize(QSize(30, 30));
+            size_minus->setAutoRaise(true);
+            size_minus->setToolTip("Decrease the size");
+            size_minus->setStyleSheet("QToolButton { border: none; }");
 
-//         // Check the mouse event type
-//         if (mouseEvent->type() == QEvent::GraphicsSceneMousePress)
-//         {
-//             // Handle mouse press event
-//             if (mouseEvent->button() == Qt::LeftButton)
-//             {
-//                 isDrawing = true;
-//                 lastPoint = view->mapToScene(mouseEvent->pos().toPoint());
-//             }
-//         }
-//         else if (mouseEvent->type() == QEvent::GraphicsSceneMouseMove)
-//         {
-//             // Handle mouse move event
-//             if (isDrawing)
-//             {
-//                 // Draw line from last point to current point
-//                 QPainter painter(&pixmap);
-//                 painter.setPen(QPen(currentColor, penSize));
-//                 painter.drawLine(lastPoint, view->mapToScene(mouseEvent->pos().toPoint()));
-//                 lastPoint = view->mapToScene(mouseEvent->pos().toPoint());
-//                 update();
-//             }
-//         }
-//         else if (mouseEvent->type() == QEvent::GraphicsSceneMouseRelease)
-//         {
-//             // Handle mouse release event
-//             if (mouseEvent->button() == Qt::LeftButton)
-//             {
-//                 isDrawing = false;
-//             }
-//         }
+            wheel->setIcon(QIcon(":Icons/wheel.png"));
+            wheel->setIconSize(QSize(30, 30));
+            wheel->setAutoRaise(true);
+            wheel->setToolTip("Choose Colors");
+            wheel->setStyleSheet("QToolButton { border: none; }");
 
-//         // Return true to indicate that the event has been handled
-//         return true;
-//     }
-
-//     // Call the base eventFilter() for default event handling
-//     return QWidget::eventFilter(obj, event);
-// }
-
-
-
-// void FilterWidget::paintEvent(QPaintEvent *event)
-// {
-//     Q_UNUSED(event);
-//     QPainter painter(this);
-//     painter.drawPixmap(0, 0, pixmap);
-// }
-
-// void FilterWidget::mousePressEvent(QMouseEvent *event)
-// {
-//     if (event->button() == Qt::LeftButton)
-//     {
-//         isDrawing = true;
-//         lastPoint = event->pos();
-//     }
-// }
-
-// void FilterWidget::mouseMoveEvent(QMouseEvent *event)
-// {
-//     if (isDrawing)
-//     {
-//         // Draw line from last point to current point
-//         QPainter painter(&pixmap);
-//         painter.setPen(QPen(currentColor, penSize));
-//         painter.drawLine(lastPoint, event->pos());
-//         lastPoint = event->pos();
-//         scene->addPixmap(pixmap);
-//     }
-// }
-
-// void FilterWidget::mouseReleaseEvent(QMouseEvent *event)
-// {
-//     if (event->button() == Qt::LeftButton)
-//     {
-//         isDrawing = false;
-//     }
-// }
-
-
-    // void FilterWidget::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-    //      if (event->button() == Qt::LeftButton || event->buttons() & Qt::TouchPointPressed) {
-    //         lastPoint = event->pos(); // Save the starting point of the mouse click or touch
-    //     }
-    // }
-
-    // void FilterWidget::mouseMoveEvent(QGraphicsSceneMouseEvent  *event) {
-    //     if (event->buttons() & Qt::LeftButton || event->buttons() & Qt::TouchPointPressed) {
-    //         QPainter painter(&pixmap);
-    //         painter.setPen(QPen(currentColor, penSize, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-    //         painter.drawLine(lastPoint, event->pos()); // Draw a line from lastPoint to current mouse position or touch point
-    //         lastPoint = event->pos(); // Update lastPoint to current mouse position or touch point
-    //         update(); // Update the widget to trigger repaint
-    //     }
-    // }
-
-    // void FilterWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent  *event) {
-    //     if (event->button() == Qt::LeftButton || event->buttons() & Qt::TouchPointReleased) {
-    //         lastPoint = QPoint(); // Reset lastPoint when mouse or touch is released
-    //     }
-    // }
-
-
-    // void FilterWidget::resizeEvent(QResizeEvent *event) {
-    //    QPixmap newPixmap(event->size());
-    //     newPixmap.fill(Qt::white); // Fill the pixmap with white color
-    //     QPainter painter(&newPixmap);
-    //     painter.drawPixmap(0, 0, pixmap); // Draw the old pixmap onto the new pixmap
-    //     pixmap = newPixmap;
-    // }
-
-    //   void FilterWidget::drawLineTo(const QPointF &endPoint)
-    // {
-    //     // Draw a line on the pixmap from lastPos to endPoint
-    //     QPainter painter(&pixmap);
-    //     painter.setRenderHint(QPainter::Antialiasing, true);
-    //     painter.setPen(QPen(Qt::red, 3));
-    //     painter.drawLine(lastPos, endPoint);
-    //     pixmapItem->setPixmap(pixmap);
-    //     lastPos = endPoint.toPoint();
-    // }
-
-
-void FilterWidget::changeColor() {
-        QColorDialog colorDialog(this);
-        QColor newColor = colorDialog.getColor(currentColor);
-        if (newColor.isValid()) {
-            currentColor = newColor; // Update currentColor with the chosen color
+            vlay2->addWidget(color,8);
+            vlay2->addWidget(erase,9);
+            vlay2->addWidget(wheel,10);
+            vlay2->addWidget(size_plus,11);
+            vlay2->addWidget(size_minus,12);
+            is_button_active = true;
+            connect(color,&QToolButton::clicked,this,[this](){
+                is_mouse_active = true;
+            });
+            connect(wheel,SIGNAL(clicked()),this,SLOT(changeColor()));
+            connect(size_plus,SIGNAL(clicked()),this,SLOT(setPenSizeBig()));
+            connect(size_minus,SIGNAL(clicked()),this,SLOT(setPenSizeSmall()));
+            connect(erase,SIGNAL(clicked()),this,SLOT(clearDrawing()));
         }
-    }
+        else{
+            delete erase;
+            delete color;
+            delete wheel;
+            delete size_plus;
+            delete size_minus;
+            is_button_active = false;
+            is_mouse_active = false;
+        }
+    });
 
-    void FilterWidget::clearDrawing() {
-        scene->clear();
-        scene->addPixmap(pixmap);
-    }
-
-    void FilterWidget::setPenSizeBig() {
-        penSize++; // Update penSize with the chosen pen size
-    }
-
-    void FilterWidget::setPenSizeSmall() {
-        penSize--; // Update penSize with the chosen pen size
-    }
-
+}
 
 //save 
 void FilterWidget::saveImages(){
     // Get the path where the images will be saved
     QString path = QFileDialog::getExistingDirectory(this, tr("Save Images"));
-
-    // Counter variable to generate unique names for each image
-    static int counter = 0;
-
     // Loop through the QGraphicsScene and get each QPixmap
     foreach (QGraphicsItem* item, scene->items()) {
         if (item->type() == QGraphicsPixmapItem::Type) {
@@ -320,7 +276,7 @@ void FilterWidget::saveImages(){
             QPixmap pixmap = pixmapItem->pixmap();
 
             // Use the QPixmap::save() function to save each image to the file system with a unique name
-            QString fileName = QString("%1/image_%2.png").arg(path).arg(counter++);
+            QString fileName = QString("%1/image_%2.png").arg(path).arg(QDateTime::currentDateTime().toString("yyyyMMdd-hhmmsszzz").replace(":", "_"));
             pixmap.save(fileName);
         }
     }
@@ -336,41 +292,23 @@ void FilterWidget::slotZoomout()
     view->scale(1/1.1,1/1.1);
 }
 
-void FilterWidget::slotRotateleft()
+void FilterWidget::slotRotateLeft()
 {
-    
-    QPixmap rotated(pixmap.size());
-    rotated.fill(Qt::transparent);
-
-    QPainter painter(&rotated);
-    painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.translate(pixmap.width() / 2, pixmap.height() / 2);
-    painter.rotate(90);
-    painter.translate(-pixmap.width() / 2, -pixmap.height() / 2);
-    painter.drawPixmap(0, 0, pixmap);
-    painter.end();
-    pixmap=rotated;
+    QTransform transform;
+    transform.rotate(-90); // Rotate by 90 degrees
+    pixmap = pixmap.transformed(transform, Qt::SmoothTransformation);
     scene->clear();
     scene->addPixmap(pixmap);
 }
 
 void FilterWidget::slotRotateRight()
 {
-    view->rotate(90);
+    QTransform transform;
+    transform.rotate(90); // Rotate by 90 degrees
+    pixmap = pixmap.transformed(transform, Qt::SmoothTransformation);
+    scene->clear();
+    scene->addPixmap(pixmap);
 }
-
-//old version
-// void FilterWidget::setImage(QString path)
-// {
-//     QPixmap pixmap(path);
-//     QPixmap resized = pixmap.scaled(QSize(400, 400), Qt::KeepAspectRatio);
-//     scene = new QGraphicsScene;
-//     scene->addPixmap(resized);
-//     view = new QGraphicsView(scene);
-//     //view->setFixedSize(600,600);
-//     vlay1->addWidget(view);
-// }
-
 
 void FilterWidget::setImage(QString path)
 {
@@ -380,10 +318,9 @@ void FilterWidget::setImage(QString path)
     scene = new CustomGraphicsScene;
     scene->addPixmap(pixmap);
     view = new QGraphicsView(scene);
-    //view->setFixedSize(600,600);
     vlay1->addWidget(view);
+    scene->setPixmap(pixmap,currentColor,penSize,is_mouse_active);
 }
-
 
 void FilterWidget::setCamImage(const QPixmap* p)
 {
@@ -392,9 +329,30 @@ void FilterWidget::setCamImage(const QPixmap* p)
     scene->addPixmap(pixmap);
     view = new QGraphicsView(scene);
     vlay1->addWidget(view);
-} 
+    scene->setPixmap(pixmap,currentColor,penSize,is_mouse_active);
+}
 
+void FilterWidget::changeColor() {
+        QColorDialog colorDialog(this);
+        QColor newColor = colorDialog.getColor(currentColor);
+        if (newColor.isValid()) {
+            currentColor = newColor; // Update currentColor with the chosen color
+        }
+    }
 
+void FilterWidget::clearDrawing() {
+        scene->clear();
+        pixmap=prev;
+        scene->addPixmap(prev);
+    }
+
+void FilterWidget::setPenSizeBig() {
+        penSize++; // Update penSize with the chosen pen size
+    }
+
+void FilterWidget::setPenSizeSmall() {
+        penSize--; // Update penSize with the chosen pen size
+    }
 
 
 

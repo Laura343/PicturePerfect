@@ -28,21 +28,25 @@ CameraWidget::CameraWidget(QWidget *parent)
     original->setIcon(QIcon(":Icons/original.jpg"));
     original->setIconSize(QSize(80, 80));
     original->setAutoRaise(true);
+    original->setToolTip("No Filter");
     original->setStyleSheet("QToolButton { border: none; }");
 
     black_and_white->setIcon(QIcon(":Icons/black_and_white.jpg"));
     black_and_white->setIconSize(QSize(80, 80));
     black_and_white->setAutoRaise(true);
+    black_and_white->setToolTip("Black And White");
     black_and_white->setStyleSheet("QToolButton { border: none; }");
 
     sand->setIcon(QIcon(":Icons/sand.jpg"));
     sand->setIconSize(QSize(80, 80));
     sand->setAutoRaise(true);
+    sand->setToolTip("Sand");
     sand->setStyleSheet("QToolButton { border: none; }");
 
     red_blue->setIcon(QIcon(":Icons/red-blue.jpg"));
     red_blue->setIconSize(QSize(80, 80));
     red_blue->setAutoRaise(true);
+    red_blue->setToolTip("Red And Blue");
     red_blue->setStyleSheet("QToolButton { border: none; }");
 
     QHBoxLayout *filtersLay=new QHBoxLayout(this);
@@ -60,14 +64,15 @@ CameraWidget::CameraWidget(QWidget *parent)
     goToPhotos_button->setIcon(QIcon(":Icons/add_picT.jpg"));
     goToPhotos_button->setIconSize(QSize(30, 30));
     goToPhotos_button->setAutoRaise(true);
+    goToPhotos_button->setToolTip("Add Picture");
     goToPhotos_button->setStyleSheet("QToolButton { border: none; }");
 
     goToFilter_button->setIcon(QIcon(":Icons/camera_t.png"));
     goToFilter_button->setIconSize(QSize(30, 30));
     goToFilter_button->setAutoRaise(true);
+    goToFilter_button->setToolTip("Capture");
     goToFilter_button->setStyleSheet("QToolButton { border: none; }");
     
-    //QHBoxLayout* lay=new QHBoxLayout;
     filtersLay->addWidget(goToFilter_button);
     filtersLay->addWidget(goToPhotos_button);
 

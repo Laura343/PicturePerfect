@@ -8,6 +8,7 @@ PhotosWidget::PhotosWidget(QWidget *parent)
     fromPhotosBack_button->setIcon(QIcon(":Icons/address-card.png"));
     fromPhotosBack_button->setIconSize(QSize(30, 30));
     fromPhotosBack_button->setAutoRaise(true);
+    fromPhotosBack_button->setToolTip("Home Page");
     fromPhotosBack_button->setStyleSheet("QToolButton { border: none; }");
 
     lay=new QVBoxLayout;

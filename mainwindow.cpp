@@ -1,51 +1,22 @@
 #include "mainwindow.h"
-#include "CustomTitleBar.h"
-#include <QVBoxLayout>
-#include <QFileDialog>
-#include <QStyle>
-#include <QStyleOptionTitleBar>
-#include <QPalette>
-#include "frameCapture.h"
-#include "imageToQImage.h"
-#include <QPixmap>
 
 MainWindow::MainWindow()
 {
-    
-    
     resize(500,600);
     setWindowTitle("Picture Perfect");
     setWindowIcon(QIcon(":Icons/window_icon.jpg"));
 
-    //customize minimize,maximize and close buttons
-    //doesn't work
-    // setWindowFlags(Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint);
-
-    // QPushButton* minimizeButton = findChild<QPushButton*>("qt_minimize_button");
-    // if (minimizeButton != nullptr){
-    //     minimizeButton->setIcon(QIcon(":/Icons/minimize.jpg"));
-    // }
-
-    // QPushButton* maximizeButton = findChild<QPushButton*>("qt_maximize_button");
-    // if (maximizeButton != nullptr){
-    //     maximizeButton->setIcon(QIcon(":/Icons/maximize.jpg"));
-    // }
-
-    // QPushButton* closeButton = findChild<QPushButton*>("qt_close_button");
-    // if (closeButton != nullptr){
-    //     closeButton->setIcon(QIcon(":/Icons/close.jpg"));
-    // } 
-    // setWindowFlags( Qt::CustomizeWindowHint );
-    // CustomTitleBar *titleBar = new CustomTitleBar;
-    // setWindowTitleBarWidget(titleBar);
-
-    QMenuBar* menuBar = new QMenuBar(this);
-    menu = new QMenu("Mode",this);
+    menuBar = new QMenuBar(this);
+    mode_menu = new QMenu("Mode",this);
     light = new QAction("Light",this);
     dark = new QAction("Dark",this);
-    menu->addAction(light);
-    menu->addAction(dark);
-    menuBar->addMenu(menu);
+    help_menu = new QMenu("Help",this);
+    about_us = new QAction("About us",this);
+    mode_menu->addAction(light);
+    mode_menu->addAction(dark);
+    help_menu->addAction(about_us);
+    menuBar->addMenu(mode_menu);
+    menuBar->addMenu(help_menu);
     setMenuBar(menuBar);
 
     cameraWidget = new CameraWidget;
@@ -56,24 +27,13 @@ MainWindow::MainWindow()
     stackedWidget->addWidget(cameraWidget); //0 index
     stackedWidget->addWidget(photosWidget);  //1 index
     stackedWidget->addWidget(filterWidget);  //2 index
-
-
-
-    // QVBoxLayout *mainLayout = new QVBoxLayout;
-    // mainLayout->addLayout(stackedLayout);
-    // setLayout(mainLayout);
-
     setCentralWidget(stackedWidget);
 
     connect(light, &QAction::triggered, this, &MainWindow::toggleLightMode);
     connect(dark, &QAction::triggered, this, &MainWindow::toggleDarkMode);
 
     connect(cameraWidget->goToPhotos_button,&QToolButton::clicked,this,[this](){stackedWidget->setCurrentIndex(1);});
-    connect(cameraWidget->goToFilter_button,&QToolButton::clicked,this,[this](){
-        delete filterWidget->view;
-        delete filterWidget->scene;
-        filterWidget->setImage(":Images/image0.jpg");
-        stackedWidget->setCurrentIndex(2);});
+
     connect(filterWidget->fromFilterback_button,&QToolButton::clicked,this,[this](){stackedWidget->setCurrentIndex(0);});
     connect(photosWidget->fromPhotosBack_button,&QToolButton::clicked,this,[this](){stackedWidget->setCurrentIndex(0);});
 
@@ -106,8 +66,14 @@ MainWindow::MainWindow()
         stackedWidget->setCurrentIndex(2);}); 
 
     connect(photosWidget->button_array[4],&QToolButton::clicked,this,&MainWindow::addPhoto);
+    
+    connect(about_us,&QAction::triggered,this,&MainWindow::aboutUsMessageBox);
 }
 
+void MainWindow::aboutUsMessageBox(){
+    QMessageBox::about(this, tr("About our application"),
+            tr("This is a simple Qt application"));
+}
 
 void MainWindow::addPhoto()
 {
@@ -164,6 +130,7 @@ void MainWindow::toggleDarkMode()
     setStyleSheet("QWidget { background-color: grey; color: black; }");
     stackedWidget->setStyleSheet("QWidget { background-color: grey; color: black; }");
 }
+
 
 
 MainWindow::~MainWindow()
