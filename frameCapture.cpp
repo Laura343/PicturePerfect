@@ -12,11 +12,8 @@ void Camera::endCamera()
 
 Image Camera::captureImage(int filterNumber)
 {
-    cv::Mat frame;
     m_cap >> frame;
     cv::flip(frame, frame, 1);
-    original=frame;
-    
     switch(filterNumber)
     {
         case 1:
@@ -34,5 +31,8 @@ Image Camera::captureImage(int filterNumber)
 
 Image Camera::captureOriginalImage()
 {
+    cv::Mat original;
+    m_cap>>original;
+    cv::flip(original, original, 1);
     return MatToImage(original);
 }

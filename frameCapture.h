@@ -15,7 +15,7 @@ public:
 
     Image captureOriginalImage();
 private:
-    cv::Mat original;
+    cv::Mat frame;
     cv::VideoCapture m_cap;
 };
 
