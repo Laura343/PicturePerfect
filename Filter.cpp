@@ -7,6 +7,8 @@
 FilterWidget::FilterWidget(QWidget *parent)
     : QWidget(parent)
 {
+    cursor.setShape(Qt::ArrowCursor);
+    setCursor(cursor);
     //layouts
     vlay1 = new QVBoxLayout;
     main_hlay=new QHBoxLayout;
@@ -202,11 +204,7 @@ FilterWidget::FilterWidget(QWidget *parent)
         });
     connect(paint,&QToolButton::clicked,this,[this](){
         if(is_button_active == false){
-            if(firstTime)
-            {
-                 prev=pixmap;
-                 firstTime=false;
-            }       
+            prev=pixmap;
             erase = new QToolButton;
             color = new QToolButton;
             size_plus = new QToolButton;
@@ -253,11 +251,15 @@ FilterWidget::FilterWidget(QWidget *parent)
                 {
                     scene->is_active = false;
                     is_brush_active=false;
+                    cursor.setShape(Qt::ArrowCursor);      
+                    setCursor(cursor);
                 }
                 else
                 {
                     scene->is_active = true;
                     is_brush_active=true;
+                    cursor.setShape(Qt::CrossCursor);
+                    setCursor(cursor);
                 }
             });
             connect(wheel,SIGNAL(clicked()),this,SLOT(changeColor()));
@@ -274,6 +276,8 @@ FilterWidget::FilterWidget(QWidget *parent)
             is_button_active = false;
             scene->is_active = false;
             is_brush_active=false;
+            cursor.setShape(Qt::ArrowCursor);      
+            setCursor(cursor);
         }
     });
 

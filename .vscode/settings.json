@@ -35,6 +35,13 @@
   ],
   "C_Cpp_Runner.useAddressSanitizer": false,
   "files.associations": {
-    "qmessagebox": "cpp"
+    "qmessagebox": "cpp",
+    "deque": "cpp",
+    "forward_list": "cpp",
+    "list": "cpp",
+    "vector": "cpp",
+    "xhash": "cpp",
+    "xstring": "cpp",
+    "xtree": "cpp"
   }
 }

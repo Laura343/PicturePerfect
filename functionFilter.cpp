@@ -35,163 +35,115 @@ void applyFilter(Mat& image, Scalar color)
 }
 
 
-void makeGray(Image& img ){
-    cv::Mat mat=ImageToMat(img);
-    if (mat.empty())
-    {
+void makeGray(Image& img) {
+    cv::Mat mat = ImageToMat(img);
+    if (mat.empty()) {
         cout << "Could not open or find the image" << endl;
+        return;
     }
-    time_t now = time(0);
-    struct tm tstruct;
-    char text[80];
-    tstruct = *localtime(&now);
-    strftime(text, sizeof(text), "%Y-%m-%d %X", &tstruct);
-    string date_time = text;
-    Scalar brightness = mean(mat);
-    int font = FONT_HERSHEY_SIMPLEX; //tareri dzev
-    double font_scale = 2.0; //tarachap
-    Scalar font_color;
-    if (brightness[0] < 127) {
-        font_color = Scalar(255, 255, 255);
-    } else {
-        font_color = Scalar(0, 0, 0);
-    }
-    int font_thickness = 2;
-    Size text_size = getTextSize(date_time, font, font_scale, font_thickness, nullptr);
-    Point text_pos(mat.cols - text_size.width - 10, mat.rows - text_size.height - 10);
-    putText(mat, date_time, text_pos, font, font_scale, font_color, font_thickness);
-    img=MatToImage(mat);
-}
-
-
-void makeGray(cv::Mat& mat ){
-
-    if (mat.empty())
-    {
-        cout << "Could not open or find the image" << endl;
-    }
-    time_t now = time(0);
-    struct tm tstruct;
-    char text[80];
-    tstruct = *localtime(&now);
-    strftime(text, sizeof(text), "%Y-%m-%d %X", &tstruct);
-    string date_time = text;
-    Scalar brightness = mean(mat);
-    int font = FONT_HERSHEY_SIMPLEX; //tareri dzev
-    double font_scale = 2.0; //tarachap
-    Scalar font_color;
-    if (brightness[0] < 127) {
-        font_color = Scalar(255, 255, 255);
-    } else {
-        font_color = Scalar(0, 0, 0);
-    }
-    int font_thickness = 2;
-    Size text_size = getTextSize(date_time, font, font_scale, font_thickness, nullptr);
-    Point text_pos(mat.cols - text_size.width - 10, mat.rows - text_size.height - 10);
-    putText(mat, date_time, text_pos, font, font_scale, font_color, font_thickness);
-   
-} 
-
-void redBlue(Image& img ){
-    cv::Mat mat=ImageToMat(img);
-
-    if (mat.empty())
-    {
-        cout << "Could not open or find the image" << endl;
-    }
-
-  int width = mat.cols / 5;
-  for (int i = 0; i < 5; i++) {
-    vector<Point> pts(4);
     int width = mat.cols / 5;
-    pts[0] = Point(i * width, 0);
-    pts[1] = Point((i + 1) * width, 0);
-    pts[2] = Point((i + 1) * width, mat.rows);
-    pts[3] = Point(i * width, mat.rows);
-
-    Mat mask(mat.size(), CV_8UC1, Scalar(0));
-    fillConvexPoly(mask, pts, Scalar(255));
-
-    Mat roi;
-    mat.copyTo(roi, mask);
-    Scalar color;
-    switch (i) {
-        case 0: // blue filter
-            color = Scalar(255, 0, 0);
-            break;
-        case 1: // green filter
-            color = Scalar(0, 255, 0);
-            break;
-        case 2: // red filter
-            color = Scalar(0, 0, 255);
-            break;
-        case 3: // yellow filter
-            color = Scalar(0, 255, 255);
-            break;
-        case 4: // purple filter
-            color = Scalar(255, 0, 255);
-            break;
+    vector<Scalar> filter_colors = {
+        Scalar(255, 0, 0),   // blue filter
+        Scalar(0, 255, 0),   // green filter
+        Scalar(0, 0, 255),   // red filter
+        Scalar(0, 255, 255), // yellow filter
+        Scalar(255, 0, 255)  // purple filter
+    };
+    Mat combined(mat.rows, mat.cols, mat.type(), Scalar(0, 0, 0));
+    for (int i = 0; i < 5; i++) {
+        vector<Point> pts(4);
+        pts[0] = Point(i * width, 0);
+        pts[1] = Point((i + 1) * width, 0);
+        pts[2] = Point((i + 1) * width, mat.rows);
+        pts[3] = Point(i * width, mat.rows);
+        Mat mask(mat.size(), CV_8UC1, Scalar(0));
+        fillConvexPoly(mask, pts, Scalar(255));
+        Mat roi(mat.size(), mat.type(), filter_colors[i]);
+        mat.copyTo(roi, mask);
+        applyFilter(roi, filter_colors[i]);
+        roi.copyTo(combined, mask);
     }
-    applyFilter(roi, color);
-    roi.copyTo(mat, mask);
+    img = MatToImage(combined);
 }
-
-    Mat combined(mat.rows, mat.cols * 2, mat.type());
-    mat.copyTo(combined(Rect(0, 0, mat.cols, mat.rows)));
-
-    img=MatToImage(combined);
-}
-
-
-void redBlue(cv::Mat& mat ){
-   
-
-    if (mat.empty())
-    {
+void makeGray(cv::Mat& mat) {
+    if (mat.empty()) {
         cout << "Could not open or find the image" << endl;
+        return;
     }
-
-  int width = mat.cols / 5;
-  for (int i = 0; i < 5; i++) {
-    vector<Point> pts(4);
     int width = mat.cols / 5;
-    pts[0] = Point(i * width, 0);
-    pts[1] = Point((i + 1) * width, 0);
-    pts[2] = Point((i + 1) * width, mat.rows);
-    pts[3] = Point(i * width, mat.rows);
-
-    Mat mask(mat.size(), CV_8UC1, Scalar(0));
-    fillConvexPoly(mask, pts, Scalar(255));
-
-    Mat roi;
-    mat.copyTo(roi, mask);
-    Scalar color;
-    switch (i) {
-        case 0: // blue filter
-            color = Scalar(255, 0, 0);
-            break;
-        case 1: // green filter
-            color = Scalar(0, 255, 0);
-            break;
-        case 2: // red filter
-            color = Scalar(0, 0, 255);
-            break;
-        case 3: // yellow filter
-            color = Scalar(0, 255, 255);
-            break;
-        case 4: // purple filter
-            color = Scalar(255, 0, 255);
-            break;
+    vector<Scalar> filter_colors = {
+        Scalar(255, 0, 0),   // blue filter
+        Scalar(0, 255, 0),   // green filter
+        Scalar(0, 0, 255),   // red filter
+        Scalar(0, 255, 255), // yellow filter
+        Scalar(255, 0, 255)  // purple filter
+    };
+    Mat combined(mat.rows, mat.cols, mat.type(), Scalar(0, 0, 0));
+    for (int i = 0; i < 5; i++) {
+        vector<Point> pts(4);
+        pts[0] = Point(i * width, 0);
+        pts[1] = Point((i + 1) * width, 0);
+        pts[2] = Point((i + 1) * width, mat.rows);
+        pts[3] = Point(i * width, mat.rows);
+        Mat mask(mat.size(), CV_8UC1, Scalar(0));
+        fillConvexPoly(mask, pts, Scalar(255));
+        Mat roi(mat.size(), mat.type(), filter_colors[i]);
+        mat.copyTo(roi, mask);
+        applyFilter(roi, filter_colors[i]);
+        roi.copyTo(combined, mask);
     }
-    applyFilter(roi, color);
-    roi.copyTo(mat, mask);
+      mat=combined;
 }
 
-    Mat combined(mat.rows, mat.cols * 2, mat.type());
-    mat.copyTo(combined(Rect(0, 0, mat.cols, mat.rows)));
-
-    mat=combined;
-}     
+void redBlue(Image& img) {
+    cv::Mat mat = ImageToMat(img);
+    if (mat.empty()) {
+        cout << "Could not open or find the image" << endl;
+        return;
+    }
+    double stretch_factor = 3.5;
+    double compression_factor = 0.7;
+    Point2f source[4] = {
+        Point2f(0, 0),
+        Point2f(mat.cols, 0),
+        Point2f(0, mat.rows),
+        Point2f(mat.cols, mat.rows)
+    };
+    Point2f destination[4] = {
+        Point2f(0, 0),
+        Point2f(mat.cols * stretch_factor, 0),
+        Point2f(0, mat.rows * compression_factor),
+        Point2f( mat.cols * stretch_factor, mat.rows * compression_factor)
+    };
+    Mat transform_matrix = getPerspectiveTransform(source, destination);  // sarqenq 3x3 matric warpi 3rd paranetri hamar
+    Mat modified_img;
+    warpPerspective(mat, modified_img, transform_matrix, Size(mat.cols * stretch_factor, mat.rows*compression_factor));
+    img = MatToImage(mat);
+}
+void redBlue(cv::Mat& mat) {
+    if (mat.empty()) {
+        cout << "Could not open or find the image" << endl;
+        return;
+    }
+    double stretch_factor = 3.5;
+    double compression_factor = 0.7;
+    Point2f source[4] = {
+        Point2f(0, 0),
+        Point2f(mat.cols, 0),
+        Point2f(0, mat.rows),
+        Point2f(mat.cols, mat.rows)
+    };
+    Point2f destination[4] = {
+        Point2f(0, 0),
+        Point2f(mat.cols * stretch_factor, 0),
+        Point2f(0, mat.rows * compression_factor),
+        Point2f( mat.cols * stretch_factor, mat.rows * compression_factor)
+    };
+    Mat transform_matrix = getPerspectiveTransform(source, destination);  // sarqenq 3x3 matric warpi 3rd paranetri hamar
+    Mat modified_img;
+    warpPerspective(mat, modified_img, transform_matrix, Size(mat.cols * stretch_factor, mat.rows*compression_factor));
+}
+  
 // void makeGray(Image& img){
 //     cv::Mat mat=ImageToMat(img);
 //     if (mat.empty())

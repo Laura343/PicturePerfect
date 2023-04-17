@@ -17,6 +17,7 @@
 #include <QDebug>
 #include <QPixmap>
 #include <QColor>
+#include <QCursor>
 #include "CustomGraphicsScene.h"
 
 class FilterWidget: public QWidget
@@ -72,7 +73,7 @@ public:
     QPixmap rotateRightPixmap90Degrees(const QPixmap& original);
     QColor currentColor = Qt::black; // Initial pen color is black
     int penSize = 2;
-    bool firstTime=true;
+    QCursor cursor;
 public slots:
     void changeColor();
     void clearDrawing();
