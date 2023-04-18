@@ -35,6 +35,8 @@ MainWindow::MainWindow()
     connect(cameraWidget->goToPhotos_button,&QToolButton::clicked,this,[this](){stackedWidget->setCurrentIndex(1);});
 
     connect(filterWidget->fromFilterback_button,&QToolButton::clicked,this,[this](){
+          if(filterWidget->is_button_active)
+          {
             delete filterWidget->erase;
             delete filterWidget->color;
             delete filterWidget->wheel;
@@ -45,6 +47,7 @@ MainWindow::MainWindow()
             filterWidget->is_brush_active=false;
             filterWidget->cursor.setShape(Qt::ArrowCursor);      
             filterWidget->setCursor(filterWidget->cursor);
+          }
         stackedWidget->setCurrentIndex(0);});
     connect(photosWidget->fromPhotosBack_button,&QToolButton::clicked,this,[this](){stackedWidget->setCurrentIndex(0);});
 

@@ -95,13 +95,14 @@ void makeGray(cv::Mat& mat) {
       mat=combined;
 }
 
+
 void redBlue(Image& img) {
     cv::Mat mat = ImageToMat(img);
     if (mat.empty()) {
         cout << "Could not open or find the image" << endl;
         return;
     }
-    double stretch_factor = 3.5;
+    double stretch_factor = 2.5;
     double compression_factor = 0.7;
     Point2f source[4] = {
         Point2f(0, 0),
@@ -118,14 +119,15 @@ void redBlue(Image& img) {
     Mat transform_matrix = getPerspectiveTransform(source, destination);  // sarqenq 3x3 matric warpi 3rd paranetri hamar
     Mat modified_img;
     warpPerspective(mat, modified_img, transform_matrix, Size(mat.cols * stretch_factor, mat.rows*compression_factor));
-    img = MatToImage(mat);
+     img = MatToImage(modified_img);
 }
+
 void redBlue(cv::Mat& mat) {
     if (mat.empty()) {
         cout << "Could not open or find the image" << endl;
         return;
     }
-    double stretch_factor = 3.5;
+    double stretch_factor = 2.5;
     double compression_factor = 0.7;
     Point2f source[4] = {
         Point2f(0, 0),
@@ -142,7 +144,57 @@ void redBlue(cv::Mat& mat) {
     Mat transform_matrix = getPerspectiveTransform(source, destination);  // sarqenq 3x3 matric warpi 3rd paranetri hamar
     Mat modified_img;
     warpPerspective(mat, modified_img, transform_matrix, Size(mat.cols * stretch_factor, mat.rows*compression_factor));
+    mat=modified_img;
 }
+
+// void redBlue(Image& img) {
+//     cv::Mat mat = ImageToMat(img);
+//     if (mat.empty()) {
+//         cout << "Could not open or find the image" << endl;
+//         return;
+//     }
+//     double stretch_factor = 3.5;
+//     double compression_factor = 0.7;
+//     Point2f source[4] = {
+//         Point2f(0, 0),
+//         Point2f(mat.cols, 0),
+//         Point2f(0, mat.rows),
+//         Point2f(mat.cols, mat.rows)
+//     };
+//     Point2f destination[4] = {
+//         Point2f(0, 0),
+//         Point2f(mat.cols * stretch_factor, 0),
+//         Point2f(0, mat.rows * compression_factor),
+//         Point2f( mat.cols * stretch_factor, mat.rows * compression_factor)
+//     };
+//     Mat transform_matrix = getPerspectiveTransform(source, destination);  // sarqenq 3x3 matric warpi 3rd paranetri hamar
+//     Mat modified_img;
+//     warpPerspective(mat, modified_img, transform_matrix, Size(mat.cols * stretch_factor, mat.rows*compression_factor));
+//     img = MatToImage(mat);
+// }
+// void redBlue(cv::Mat& mat) {
+//     if (mat.empty()) {
+//         cout << "Could not open or find the image" << endl;
+//         return;
+//     }
+//     double stretch_factor = 3.5;
+//     double compression_factor = 0.7;
+//     Point2f source[4] = {
+//         Point2f(0, 0),
+//         Point2f(mat.cols, 0),
+//         Point2f(0, mat.rows),
+//         Point2f(mat.cols, mat.rows)
+//     };
+//     Point2f destination[4] = {
+//         Point2f(0, 0),
+//         Point2f(mat.cols * stretch_factor, 0),
+//         Point2f(0, mat.rows * compression_factor),
+//         Point2f( mat.cols * stretch_factor, mat.rows * compression_factor)
+//     };
+//     Mat transform_matrix = getPerspectiveTransform(source, destination);  // sarqenq 3x3 matric warpi 3rd paranetri hamar
+//     Mat modified_img;
+//     warpPerspective(mat, modified_img, transform_matrix, Size(mat.cols * stretch_factor, mat.rows*compression_factor));
+// }
   
 // void makeGray(Image& img){
 //     cv::Mat mat=ImageToMat(img);
