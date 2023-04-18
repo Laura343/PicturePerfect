@@ -95,7 +95,7 @@ void CameraWidget::timerEvent(QTimerEvent *event)
 {
     if (event->timerId() == timerId)
     {
-        QImage image = ImageToQImage(cam.captureImage(filterNumber));
+        QImage image = ImageToQImage(cam.captureImage(filterNumber)).scaled(QSize(1000, 1000), Qt::KeepAspectRatio);
         m_label->setPixmap(QPixmap::fromImage(image));
     }
 }

@@ -170,36 +170,36 @@ FilterWidget::FilterWidget(QWidget *parent)
 
     connect(filter1,&QToolButton::clicked,this,[this](){
         scene->clear();
+        originalPic=originalPic.scaled(QSize(1000, 1000), Qt::KeepAspectRatio);
         pixmap = originalPic;
-        scene->addPixmap(originalPic);
-        });
-    connect(filter1,&QToolButton::clicked,this,[this](){
-        scene->clear();
-        pixmap=originalPic;
+        prev=pixmap;
         scene->addPixmap(originalPic);
         });
     connect(filter2,&QToolButton::clicked,this,[this](){
         scene->clear();
         Image img=QImageToImage(originalPic.toImage());
         makeGray(img);
-        QImage qimg = ImageToQImage(img);
+        QImage qimg = ImageToQImage(img).scaled(QSize(1000, 1000), Qt::KeepAspectRatio);
         pixmap=QPixmap::fromImage(qimg);
+        prev=pixmap;
         scene->addPixmap(pixmap);
         });
     connect(filter3,&QToolButton::clicked,this,[this](){
         scene->clear();
         Image img=QImageToImage(originalPic.toImage());
         Zerno(img);
-        QImage qimg = ImageToQImage(img);
+        QImage qimg = ImageToQImage(img).scaled(QSize(1000, 1000), Qt::KeepAspectRatio);
         pixmap=QPixmap::fromImage(qimg);
+        prev=pixmap;
         scene->addPixmap(pixmap);
         });
     connect(filter4,&QToolButton::clicked,this,[this](){
         scene->clear();
         Image img=QImageToImage(originalPic.toImage());
         redBlue(img);
-        QImage qimg = ImageToQImage(img);
+        QImage qimg = ImageToQImage(img).scaled(QSize(1000, 1000), Qt::KeepAspectRatio);
         pixmap=QPixmap::fromImage(qimg);
+        prev=pixmap;
         scene->addPixmap(pixmap);
         });
     connect(paint,&QToolButton::clicked,this,[this](){
@@ -331,7 +331,7 @@ void FilterWidget::slotRotateRight()
 void FilterWidget::setImage(QString path)
 {
     pixmap= QPixmap(path);
-    originalPic = pixmap.scaled(QSize(400, 400), Qt::KeepAspectRatio);
+    originalPic = pixmap.scaled(QSize(1000, 1000), Qt::KeepAspectRatio);
     pixmap=originalPic;
     scene = new CustomGraphicsScene;
     scene->addPixmap(pixmap);
@@ -343,7 +343,7 @@ void FilterWidget::setImage(QString path)
 void FilterWidget::setCamImage(const QPixmap* p)
 {
     scene = new CustomGraphicsScene;
-    pixmap=(*p).scaled(QSize(400, 400), Qt::KeepAspectRatio);
+    pixmap=(*p).scaled(QSize(1000, 1000), Qt::KeepAspectRatio);
     scene->addPixmap(pixmap);
     view = new QGraphicsView(scene);
     vlay1->addWidget(view);

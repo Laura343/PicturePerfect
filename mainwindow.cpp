@@ -1,10 +1,26 @@
 #include "mainwindow.h"
+#include <QLabel>
+#include <QPixmap>
+#include <QWidget>
+#include <QTimer>
 
 MainWindow::MainWindow()
 {
     resize(500,600);
     setWindowTitle("Picture Perfect");
     setWindowIcon(QIcon(":Icons/window_icon.jpg"));
+
+    //
+    QWidget *photoWidget = new QWidget(this);
+    // Create a QLabel and set its pixmap to the photo you want to display
+    QLabel *photoLabel = new QLabel(photoWidget);
+    QPixmap photo("C:/Users/hovha/ACA/hotdog.jpg");
+    photoLabel->setPixmap(photo);
+    // Set the photo label to be full-screen
+    photoLabel->setGeometry(0, 0, width(), height());
+    // Set the photo widget as the central widget of the main window
+    setCentralWidget(photoWidget);
+
 
     menuBar = new QMenuBar(this);
     mode_menu = new QMenu("Mode",this);
@@ -27,7 +43,14 @@ MainWindow::MainWindow()
     stackedWidget->addWidget(cameraWidget); //0 index
     stackedWidget->addWidget(photosWidget);  //1 index
     stackedWidget->addWidget(filterWidget);  //2 index
-    setCentralWidget(stackedWidget);
+
+
+    //
+    QTimer::singleShot(3000, this, [=]() {
+            setCentralWidget(stackedWidget);
+            delete photoWidget;
+        });
+   
 
     connect(light, &QAction::triggered, this, &MainWindow::toggleLightMode);
     connect(dark, &QAction::triggered, this, &MainWindow::toggleDarkMode);
