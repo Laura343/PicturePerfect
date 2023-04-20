@@ -37,10 +37,18 @@ public:
     QVBoxLayout *main_vlay;
 
     //filters
-    QToolButton* filter1;
-    QToolButton* filter2;
-    QToolButton* filter3;
-    QToolButton* filter4;
+    QToolButton* original;
+    QToolButton* sand;
+    QToolButton* black_and_white;
+    QToolButton* rain;
+    QToolButton* hands; 
+    QToolButton* date;
+    QToolButton* blur;
+    QToolButton* rainbow;
+    QToolButton* snow;
+    QToolButton* sparkles;
+    QToolButton* redNose;
+    QToolButton* square_on_face;
 
     //tools
     QToolButton* zoomIn;

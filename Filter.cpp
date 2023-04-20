@@ -17,11 +17,91 @@ FilterWidget::FilterWidget(QWidget *parent)
     main_vlay = new QVBoxLayout;
 
     //filters
-    filter1 = new QToolButton;
-    filter2 = new QToolButton;
-    filter3 = new QToolButton;
-    filter4 = new QToolButton;
+    original = new QToolButton;
+    black_and_white = new QToolButton;
+    sand = new QToolButton;
+    rain = new QToolButton;
+    hands = new QToolButton;
+    date = new QToolButton;
+    blur = new QToolButton;
+    rainbow = new QToolButton;
+    snow = new QToolButton;
+    sparkles = new QToolButton;
+    redNose = new QToolButton;
+    square_on_face = new QToolButton;
 
+    original->setIcon(QIcon(":Icons/original.jpg"));
+    original->setIconSize(QSize(80, 80));
+    original->setAutoRaise(true);
+    original->setToolTip("No Filter");
+    original->setStyleSheet("QToolButton { border: none; }");
+
+    black_and_white->setIcon(QIcon(":Icons/black_and_white.jpg"));
+    black_and_white->setIconSize(QSize(80, 80));
+    black_and_white->setAutoRaise(true);
+    black_and_white->setToolTip("Black And White");
+    black_and_white->setStyleSheet("QToolButton { border: none; }");
+
+    sand->setIcon(QIcon(":Icons/sand.jpg"));
+    sand->setIconSize(QSize(80, 80));
+    sand->setAutoRaise(true);
+    sand->setToolTip("Sand");
+    sand->setStyleSheet("QToolButton { border: none; }");
+
+    blur->setIcon(QIcon(":Icons/blur.jpg"));
+    blur->setIconSize(QSize(80, 80));
+    blur->setAutoRaise(true);
+    blur->setToolTip("Blur Effect");
+    blur->setStyleSheet("QToolButton { border: none; }");
+
+    rain->setIcon(QIcon(":Icons/rain.jpg"));
+    rain->setIconSize(QSize(80, 80));
+    rain->setAutoRaise(true);
+    rain->setToolTip("Rain");
+    rain->setStyleSheet("QToolButton { border: none; }");
+
+    hands->setIcon(QIcon(":Icons/hands.jpg"));
+    hands->setIconSize(QSize(80, 80));
+    hands->setAutoRaise(true);
+    hands->setToolTip("Hands");
+    hands->setStyleSheet("QToolButton { border: none; }");
+        
+    date->setIcon(QIcon(":Icons/date.jpg"));
+    date->setIconSize(QSize(80, 80));
+    date->setAutoRaise(true);
+    date->setToolTip("Date and Time");
+    date->setStyleSheet("QToolButton { border: none; }");
+
+    rainbow->setIcon(QIcon(":Icons/rainbow.jpg"));
+    rainbow->setIconSize(QSize(80, 80));
+    rainbow->setAutoRaise(true);
+    rainbow->setToolTip("Rainbow");
+    rainbow->setStyleSheet("QToolButton { border: none; }");
+
+    snow->setIcon(QIcon(":Icons/snow.jpg"));
+    snow->setIconSize(QSize(80, 80));
+    snow->setAutoRaise(true);
+    snow->setToolTip("Snow");
+    snow->setStyleSheet("QToolButton { border: none; }");
+
+    sparkles->setIcon(QIcon(":Icons/sparkles.jpg"));
+    sparkles->setIconSize(QSize(80, 80));
+    sparkles->setAutoRaise(true);
+    sparkles->setToolTip("Sparkles");
+    sparkles->setStyleSheet("QToolButton { border: none; }");
+
+    redNose->setIcon(QIcon(":Icons/redNose.jpg"));
+    redNose->setIconSize(QSize(80, 80));
+    redNose->setAutoRaise(true);
+    redNose->setToolTip("Clown");
+    redNose->setStyleSheet("QToolButton { border: none; }");
+
+    square_on_face->setIcon(QIcon(":Icons/square_on_face.png"));
+    square_on_face->setIconSize(QSize(80, 80));
+    square_on_face->setAutoRaise(true);
+    square_on_face->setToolTip("Face detection");
+    square_on_face->setStyleSheet("QToolButton { border: none; }");
+    
     //tools
     zoomIn = new QToolButton;
     zoomOut = new QToolButton;
@@ -117,34 +197,18 @@ FilterWidget::FilterWidget(QWidget *parent)
     save->setToolTip("Save");
     save->setStyleSheet("QToolButton { border: none; }");
 
-    filter1->setIcon(QIcon(":Icons/original.jpg"));
-    filter1->setIconSize(QSize(80, 80));
-    filter1->setAutoRaise(true);
-    filter1->setToolTip("No Filter");
-    filter1->setStyleSheet("QToolButton { border: none; }");
-
-    filter2->setIcon(QIcon(":Icons/black_and_white.jpg"));
-    filter2->setIconSize(QSize(80, 80));
-    filter2->setAutoRaise(true);
-    filter2->setToolTip("Black And White");
-    filter2->setStyleSheet("QToolButton { border: none; }");
-
-    filter3->setIcon(QIcon(":Icons/sand.jpg"));
-    filter3->setIconSize(QSize(80, 80));
-    filter3->setAutoRaise(true);
-    filter3->setToolTip("Sand");
-    filter3->setStyleSheet("QToolButton { border: none; }");
-
-    filter4->setIcon(QIcon(":Icons/red-blue.jpg"));
-    filter4->setIconSize(QSize(80, 80));
-    filter4->setAutoRaise(true);
-    filter4->setToolTip("Red And Blue");
-    filter4->setStyleSheet("QToolButton { border: none; }");
-
-    hlay->addWidget(filter1);
-    hlay->addWidget(filter2);
-    hlay->addWidget(filter3);
-    hlay->addWidget(filter4);
+    hlay->addWidget(original);
+    hlay->addWidget(black_and_white);
+    hlay->addWidget(sand);
+    hlay->addWidget(blur);
+    hlay->addWidget(rain);
+    hlay->addWidget(hands);
+    hlay->addWidget(date);
+    hlay->addWidget(rainbow);
+    hlay->addWidget(snow);
+    hlay->addWidget(sparkles);
+    hlay->addWidget(redNose);
+    hlay->addWidget(square_on_face);
 
     vlay1->addWidget(view);
 
@@ -168,14 +232,14 @@ FilterWidget::FilterWidget(QWidget *parent)
     connect(rotate_left,&QToolButton::clicked,this,&FilterWidget::slotRotateLeft);
     connect(save,&QToolButton::clicked,this,&FilterWidget::saveImages);
 
-    connect(filter1,&QToolButton::clicked,this,[this](){
+    connect(original,&QToolButton::clicked,this,[this](){
         scene->clear();
         originalPic=originalPic.scaled(QSize(1000, 1000), Qt::KeepAspectRatio);
         pixmap = originalPic;
         prev=pixmap;
         scene->addPixmap(originalPic);
         });
-    connect(filter2,&QToolButton::clicked,this,[this](){
+    connect(black_and_white,&QToolButton::clicked,this,[this](){
         scene->clear();
         Image img=QImageToImage(originalPic.toImage());
         makeGray(img);
@@ -184,24 +248,97 @@ FilterWidget::FilterWidget(QWidget *parent)
         prev=pixmap;
         scene->addPixmap(pixmap);
         });
-    connect(filter3,&QToolButton::clicked,this,[this](){
+    connect(sand,&QToolButton::clicked,this,[this](){
         scene->clear();
         Image img=QImageToImage(originalPic.toImage());
-        Zerno(img);
+        Grain(img);
         QImage qimg = ImageToQImage(img).scaled(QSize(1000, 1000), Qt::KeepAspectRatio);
         pixmap=QPixmap::fromImage(qimg);
         prev=pixmap;
         scene->addPixmap(pixmap);
         });
-    connect(filter4,&QToolButton::clicked,this,[this](){
+    connect(rain,&QToolButton::clicked,this,[this](){
         scene->clear();
         Image img=QImageToImage(originalPic.toImage());
-        redBlue(img);
+        _add_rain(img);
         QImage qimg = ImageToQImage(img).scaled(QSize(1000, 1000), Qt::KeepAspectRatio);
         pixmap=QPixmap::fromImage(qimg);
         prev=pixmap;
         scene->addPixmap(pixmap);
         });
+    connect(hands,&QToolButton::clicked,this,[this](){
+        scene->clear();
+        Image img=QImageToImage(originalPic.toImage());
+        _AdamHands(img);
+        QImage qimg = ImageToQImage(img).scaled(QSize(1000, 1000), Qt::KeepAspectRatio);
+        pixmap=QPixmap::fromImage(qimg);
+        prev=pixmap;
+        scene->addPixmap(pixmap);
+        });
+    connect(date,&QToolButton::clicked,this,[this](){
+        scene->clear();
+        Image img=QImageToImage(originalPic.toImage());
+        date_and_time(img);
+        QImage qimg = ImageToQImage(img).scaled(QSize(1000, 1000), Qt::KeepAspectRatio);
+        pixmap=QPixmap::fromImage(qimg);
+        prev=pixmap;
+        scene->addPixmap(pixmap);
+        });
+    connect(blur,&QToolButton::clicked,this,[this](){
+        scene->clear();
+        Image img=QImageToImage(originalPic.toImage());
+        blurImage(img);
+        QImage qimg = ImageToQImage(img).scaled(QSize(1000, 1000), Qt::KeepAspectRatio);
+        pixmap=QPixmap::fromImage(qimg);
+        prev=pixmap;
+        scene->addPixmap(pixmap);
+        });
+    connect(rainbow,&QToolButton::clicked,this,[this](){
+        scene->clear();
+        Image img=QImageToImage(originalPic.toImage());
+        five_filters(img);
+        QImage qimg = ImageToQImage(img).scaled(QSize(1000, 1000), Qt::KeepAspectRatio);
+        pixmap=QPixmap::fromImage(qimg);
+        prev=pixmap;
+        scene->addPixmap(pixmap);
+        });
+    connect(snow,&QToolButton::clicked,this,[this](){
+        scene->clear();
+        Image img=QImageToImage(originalPic.toImage());
+        _add_snow(img);
+        QImage qimg = ImageToQImage(img).scaled(QSize(1000, 1000), Qt::KeepAspectRatio);
+        pixmap=QPixmap::fromImage(qimg);
+        prev=pixmap;
+        scene->addPixmap(pixmap);
+        });
+    connect(sparkles,&QToolButton::clicked,this,[this](){
+        scene->clear();
+        Image img=QImageToImage(originalPic.toImage());
+        _add_sparkles(img);
+        QImage qimg = ImageToQImage(img).scaled(QSize(1000, 1000), Qt::KeepAspectRatio);
+        pixmap=QPixmap::fromImage(qimg);
+        prev=pixmap;
+        scene->addPixmap(pixmap);
+        });
+    connect(redNose,&QToolButton::clicked,this,[this](){
+        scene->clear();
+        Image img=QImageToImage(originalPic.toImage());
+        clown(img);
+        QImage qimg = ImageToQImage(img).scaled(QSize(1000, 1000), Qt::KeepAspectRatio);
+        pixmap=QPixmap::fromImage(qimg);
+        prev=pixmap;
+        scene->addPixmap(pixmap);
+        });
+    connect(square_on_face,&QToolButton::clicked,this,[this](){
+        scene->clear();
+        Image img=QImageToImage(originalPic.toImage());
+        detectFace(img);
+        QImage qimg = ImageToQImage(img).scaled(QSize(1000, 1000), Qt::KeepAspectRatio);
+        pixmap=QPixmap::fromImage(qimg);
+        prev=pixmap;
+        scene->addPixmap(pixmap);
+        });
+
     connect(paint,&QToolButton::clicked,this,[this](){
         if(is_button_active == false){
             prev=pixmap;

@@ -19,7 +19,13 @@ public:
     QToolButton* original;
     QToolButton* sand;
     QToolButton* black_and_white;
-    QToolButton* red_blue;
+    QToolButton* rain;
+    QToolButton* hands; 
+    QToolButton* date;
+    QToolButton* blur;
+    QToolButton* rainbow;
+    QToolButton* snow;
+    QToolButton* sparkles;
     int filterNumber=0;
     int timerId;
     void timerEvent(QTimerEvent* event);

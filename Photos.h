@@ -23,9 +23,9 @@ public:
     QVector<QToolButton*> button_array;
     QVector<QString> path_array={"Images/image1.jpg",
                                         "Images/image2.jpg",
-                                        "Images/image3.jpg",
+                                        "Images/theweeknd",
                                         "Images/image4.jpg",
-                                        "Icons/square-plus.png"};
+                                        "Icons/image.png"};
 };
 
 

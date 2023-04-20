@@ -17,13 +17,31 @@ Image Camera::captureImage(int filterNumber)
     switch(filterNumber)
     {
         case 1:
-            Zerno(frame);
+            Grain(frame);
             break;
         case 2:
             makeGray(frame);
             break;
         case 3:
-            redBlue(frame);
+            _add_rain(frame);
+            break;
+        case 4:
+            _AdamHands(frame);
+            break;
+        case 5:
+            date_and_time(frame);
+            break;
+         case 6:
+            blurImage(frame);
+            break;
+         case 7:
+            five_filters(frame);
+            break;
+         case 8:
+            _add_snow(frame);
+            break;
+         case 9:
+            _add_sparkles(frame);
             break;
     }
     return MatToImage(frame);

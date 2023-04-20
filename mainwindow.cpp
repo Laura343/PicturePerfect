@@ -6,7 +6,7 @@
 
 MainWindow::MainWindow()
 {
-    resize(500,600);
+    resize(800,800);
     setWindowTitle("Picture Perfect");
     setWindowIcon(QIcon(":Icons/window_icon.jpg"));
 
@@ -14,7 +14,7 @@ MainWindow::MainWindow()
     QWidget *photoWidget = new QWidget(this);
     // Create a QLabel and set its pixmap to the photo you want to display
     QLabel *photoLabel = new QLabel(photoWidget);
-    QPixmap photo("C:/Users/hovha/ACA/hotdog.jpg");
+    QPixmap photo(":Images/logo.jpg");
     photoLabel->setPixmap(photo);
     // Set the photo label to be full-screen
     photoLabel->setGeometry(0, 0, width(), height());
@@ -28,6 +28,9 @@ MainWindow::MainWindow()
     dark = new QAction("Dark",this);
     help_menu = new QMenu("Help",this);
     about_us = new QAction("About us",this);
+    light->setIcon(QIcon(":Icons/sun.png"));
+    dark->setIcon(QIcon(":Icons/waning-moon.png"));
+    about_us->setIcon(QIcon(":Icons/question.png"));
     mode_menu->addAction(light);
     mode_menu->addAction(dark);
     help_menu->addAction(about_us);
