@@ -36,7 +36,7 @@ add_executable(filters
 )
 set_target_properties(filters PROPERTIES
     WIN32_EXECUTABLE TRUE
-    MACOSX_BUNDLE TRUE
+    #MACOSX_BUNDLE TRUE
 )
 target_link_libraries(filters PUBLIC
     Qt::Core

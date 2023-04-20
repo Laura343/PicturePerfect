@@ -21,7 +21,6 @@ Image MatToImage(cv::Mat& mat) //stanum enq Mat darcnum enq Image
     Image img;
     img.width = mat.cols;
     img.height = mat.rows;
-    img.depth = mat.depth();
     img.channels = mat.channels();
 
     // Allocate memory for image data

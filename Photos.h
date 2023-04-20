@@ -21,11 +21,11 @@ public:
     QVBoxLayout* lay;
     QGridLayout *grid_lay;
     QVector<QToolButton*> button_array;
-    QVector<QString> path_array={"Images/image1.jpg",
-                                        "Images/image2.jpg",
-                                        "Images/theweeknd",
-                                        "Images/image4.jpg",
-                                        "Icons/image.png"};
+    QVector<QString> path_array={":Images/selena.jpg",
+                                        ":Images/ariana_grande.jpeg",
+                                        ":Images/image2.jpg",
+                                        ":Images/smiles.png",
+                                        ":Icons/image.png"};
 };
 
 

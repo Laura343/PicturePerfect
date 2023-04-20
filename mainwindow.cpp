@@ -112,7 +112,7 @@ MainWindow::MainWindow()
 
 void MainWindow::aboutUsMessageBox(){
     QMessageBox::about(this, tr("About our application"),
-            tr("This is a simple Qt application"));
+            tr("This application is for editing your photos,adding filters to it or removing them. If you don't understand what certain buttons do, just hover your mousse over it and you will get a brief information about it. Thank you for choosing our application."));
 }
 
 void MainWindow::addPhoto()

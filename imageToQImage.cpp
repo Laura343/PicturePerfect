@@ -18,7 +18,6 @@ Image QImageToImage(QImage& image) //stanum enq QImage darcnum enq Image
     Image img;
     img.width = image.width();
     img.height = image.height();
-    img.depth = image.depth();
     img.channels = image.isGrayscale() ? 1 : 3;
 
     // Allocate memory for image data

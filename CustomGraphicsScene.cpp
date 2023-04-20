@@ -13,14 +13,14 @@ void CustomGraphicsScene::setPixmap(QPixmap& pixmap,QColor& col,int& size)
     m_penSize = &size;
 }
 void CustomGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
-{
+{ 
     if(is_active){
         if (event->button() == Qt::LeftButton) {
             // Record the last position of the mouse
             m_lastPos = event->scenePos();
         }
         // Call the base class implementation to allow for further processing
-        QGraphicsScene::mousePressEvent(event);
+        //QGraphicsScene::mousePressEvent(event);
     }
 }
 void CustomGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
@@ -36,7 +36,7 @@ void CustomGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
             addPixmap(*m_pixmap);
         }
         // Call the base class implementation to allow for further processing
-        QGraphicsScene::mouseMoveEvent(event);
+        //QGraphicsScene::mouseMoveEvent(event);
     }
 }
 void CustomGraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
@@ -47,7 +47,7 @@ void CustomGraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
             m_lastPos = event->scenePos();
         }
         // Call the base class implementation to allow for further processing
-        QGraphicsScene::mouseReleaseEvent(event);
+       // QGraphicsScene::mouseReleaseEvent(event);
     }
 }
 
